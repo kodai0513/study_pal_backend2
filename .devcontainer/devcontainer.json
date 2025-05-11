@@ -29,5 +29,5 @@
 		"njpwerner.autodocstring"
 	],
 	"service": "backend",
-	"workspaceFolder": "/app/workspace"
+	"workspaceFolder": "/app"
 }
