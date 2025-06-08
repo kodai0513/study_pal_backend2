@@ -1,6 +1,7 @@
 from pydantic import Field
 
-from app.schemas.base_rest_response_schema import BaseRestResponseSchema
+from app.schemas.shared.id_response_schema import IdResponseSchema
+from app.schemas.shared.time_response_schema import TimeResponseSchema
 from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
 
 
@@ -8,15 +9,11 @@ class CreateArticleReq(StudyPalPydanticBaseModel):
     description: str = Field(max_length=400)
 
 
-class CreateArticleResp(BaseRestResponseSchema):
-    description: str
-    user_id: str
-
-
 class UpdateArticleReq(StudyPalPydanticBaseModel):
     description: str = Field(max_length=400)
 
 
-class UpdateArticleResp(BaseRestResponseSchema):
+class ArticleResp(IdResponseSchema, TimeResponseSchema):
     description: str
+    page_id: int | None
     user_id: str

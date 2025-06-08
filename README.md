@@ -1,7 +1,11 @@
-### マイグレーション
-
+### 起動
 ```sh
-alembic revision --autogenerate -m "create tables"
+docker compose up
+```
+
+### マイグレーション
+```sh
+alembic revision --autogenerate
 alembic upgrade head
 ```
 
