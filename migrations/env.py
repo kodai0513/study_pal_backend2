@@ -4,8 +4,23 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from sqlmodel import SQLModel
 
-from app.models.article import Article
-from app.models.user import User
+from app.models.model import (
+    Article,
+    ArticleLike,
+    DescriptionProblem,
+    Permission,
+    PermissionRole,
+    Role,
+    SelectionProblem,
+    SelectionProblemAnswer,
+    TrueOrFalseProblem,
+    User,
+    Workbook,
+    WorkbookCategory,
+    WorkbookCategoryClosure,
+    WorkbookInvitationMember,
+    WorkbookMember,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

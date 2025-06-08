@@ -1,7 +1,4 @@
 .env
-app/__pycache__
-app/db/__pycache__
-app/models/__pycache__
-migrations/__pycache__
+**/__pycache__/**
 migrations/versions/*
 alembic.ini

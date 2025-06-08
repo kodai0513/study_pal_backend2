@@ -1,6 +1,5 @@
 import os
-from contextlib import contextmanager
-from typing import Annotated
+from typing import Annotated, Generator
 
 from dotenv import load_dotenv
 from fastapi import Depends
@@ -22,7 +21,7 @@ _DB_USER = os.getenv("DB_USER")
 
 _DATABASE_URL = f"mysql+mysqldb://{_DB_USER}:{_DB_PASSWORD}@{_DB_HOST}:{_DB_PORT}/{_DB_NAME}"
 
-_engine = create_engine(
+engine = create_engine(
     _DATABASE_URL,
     echo=True,
     pool_size=10,
@@ -32,10 +31,15 @@ _engine = create_engine(
 )
 
 
-@contextmanager
-def _get_session():
-    with Session(_engine) as session:
+def _get_session() -> Generator[Session, None, None]:
+    session = Session(engine)
+    try:
         yield session
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 
 SessionDep = Annotated[Session, Depends(_get_session)]
