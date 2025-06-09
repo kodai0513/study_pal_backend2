@@ -1,7 +1,5 @@
-# from app.usecases.shared.base_dto import BaseDto
+from app.schemas.problem import ProblemResp
 
 
-# class ArticleDto(BaseDto):
-#     description: str
-#     page_id: int | None
-#     user_id: str
+class ProblemDto(ProblemResp):
+    pass

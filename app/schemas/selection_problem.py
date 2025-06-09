@@ -11,7 +11,7 @@ from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
 
 
 class CreateSelectionProblemReq(StudyPalPydanticBaseModel):
-    answers: CreateSelectionProblemAnswerReq
+    answers: list[CreateSelectionProblemAnswerReq]
     statement: str = Field(max_length=255)
     workbook_category_id: str | None
 

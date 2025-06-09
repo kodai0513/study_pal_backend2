@@ -1,11 +1,10 @@
 from app.db.session import SessionDep
 from app.models.model import Article
-from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
+from app.schemas.article import CreateArticleReq
 from app.usecases.articles.dto import ArticleDto
 
 
-class CreateCommand(StudyPalPydanticBaseModel):
-    description: str
+class CreateCommand(CreateArticleReq):
     user_id: str
 
 
