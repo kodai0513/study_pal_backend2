@@ -2,3 +2,4 @@
 **/__pycache__/**
 migrations/versions/*
 alembic.ini
+.pytest_cache

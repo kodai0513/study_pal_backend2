@@ -21,7 +21,7 @@ _DB_USER = os.getenv("DB_USER")
 
 _DATABASE_URL = f"mysql+mysqldb://{_DB_USER}:{_DB_PASSWORD}@{_DB_HOST}:{_DB_PORT}/{_DB_NAME}"
 
-engine = create_engine(
+_engine = create_engine(
     _DATABASE_URL,
     echo=True,
     pool_size=10,
@@ -32,7 +32,7 @@ engine = create_engine(
 
 
 def _get_session() -> Generator[Session, None, None]:
-    session = Session(engine)
+    session = Session(_engine)
     try:
         yield session
     except Exception:

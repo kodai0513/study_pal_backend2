@@ -22,5 +22,5 @@ def map_exception_to_http(e: Exception) -> HTTPException:
     # 予期しないエラーの場合
     return HTTPException(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail="Internal Server Error",
+        detail=str(e),
     )

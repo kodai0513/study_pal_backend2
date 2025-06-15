@@ -24,7 +24,10 @@ def create_article(
     try:
         return ArticleResp.model_validate(
             CreateAction(session).execute(
-                CreateCommand(**req.model_dump(), user_id=auth.user_id)
+                CreateCommand(
+                    **req.model_dump(),
+                    user_id=auth.user_id,
+                )
             )
         )
     except Exception as e:
@@ -45,7 +48,7 @@ def update_article(
                 UpdateCommand(
                     **req.model_dump(),
                     user_id=auth.user_id,
-                    article_id=article_id
+                    article_id=article_id,
                 )
             )
         )

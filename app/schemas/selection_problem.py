@@ -11,19 +11,19 @@ from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
 
 
 class CreateSelectionProblemReq(StudyPalPydanticBaseModel):
-    answers: list[CreateSelectionProblemAnswerReq]
+    selection_problem_answers: list[CreateSelectionProblemAnswerReq]
     statement: str = Field(max_length=255)
     workbook_category_id: str | None
 
 
 class UpdateSelectionProblemReq(StudyPalPydanticBaseModel):
-    answers: UpdateSelectionProblemAnswerReq
+    selection_problem_answers: UpdateSelectionProblemAnswerReq
     statement: str = Field(max_length=255)
     workbook_category_id: str | None
 
 
 class SelectionProblemResp(IdResponseSchema, TimeResponseSchema):
-    answers: SelectionProblemAnswerResp
+    selection_problem_answers: SelectionProblemAnswerResp
     statement: str = Field(max_length=255)
     workbook_id: str
     workbook_category_id: str | None

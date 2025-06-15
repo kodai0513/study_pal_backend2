@@ -1,11 +1,23 @@
 from sqlmodel import select
 
 from app.db.session import SessionDep
+from app.domain.services.selection_problem_answer import (
+    SelectionProblemAnswerService,
+)
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.exceptions.resource_ownership_exception import (
     ResourceOwnershipException,
 )
-from app.models.model import Article, Workbook
+from app.exceptions.selection_problem_answers.invalid_single_correct_answer_exception import (  # noqa
+    InvalidSingleCorrectAnswerException,
+)
+from app.models.model import (
+    DescriptionProblem,
+    SelectionProblem,
+    SelectionProblemAnswer,
+    TrueOrFalseProblem,
+    Workbook,
+)
 from app.schemas.problem import CreateProblemReq
 from app.usecases.problems.dto import ProblemDto
 
@@ -30,10 +42,15 @@ class CreateAction:
         if command.user_id != workbook_model.user_id:
             raise ResourceOwnershipException("Problem")
 
-        article_model = Article.model_validate(command)
+        for v in command.selection_problems:
+            if not SelectionProblemAnswerService.has_only_one_correct_answer(
+                v.selection_problem_answers
+            ):
+                raise InvalidSingleCorrectAnswerException
 
-        new_article_model = Article.update_or_insert(
-            article_model, self._session
+        new_article_model = DescriptionProblem.bulk_insert(
+            [v.model_dump() for v in command.description_problems],
+            self._session,
         )
         self._session.commit()
 

@@ -33,8 +33,8 @@ class UpdateAction:
         update_values = command.model_dump(
             exclude_unset=True, exclude={"article_id", "user_id"}
         )
-        new_article_model = Article.update_or_insert(
-            article_model, self._session, update_values
+        new_article_model = Article.update(
+            command.article_id, self._session, update_values
         )
         self._session.commit()
 

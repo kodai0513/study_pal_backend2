@@ -14,3 +14,9 @@ alembic upgrade head
 cd /app
 python -m migrations.seeder
 ```
+
+### pytestの実行
+```sh
+cd /app
+pytest tests
+```

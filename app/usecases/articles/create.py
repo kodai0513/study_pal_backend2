@@ -13,11 +13,6 @@ class CreateAction:
         self._session = session
 
     def execute(self, command: CreateCommand) -> ArticleDto:
-        article_model = Article.model_validate(command)
-
-        new_article_model = Article.update_or_insert(
-            article_model, self._session
-        )
+        new_article_model = Article.insert(command.model_dump(), self._session)
         self._session.commit()
-
         return ArticleDto.model_validate(new_article_model)
