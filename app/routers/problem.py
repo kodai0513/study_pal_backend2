@@ -6,11 +6,11 @@ from app.routers.shared.exception_mapper import map_exception_to_http
 from app.schemas.problem import CreateProblemReq, ProblemResp
 from app.usecases.problems.create import CreateAction, CreateCommand
 
-router = APIRouter(prefix="/problems")
+router = APIRouter()
 
 
 @router.post(
-    "/{workbook_id}",
+    "/problems/{workbook_id}",
     response_model=ProblemResp,
     status_code=status.HTTP_201_CREATED,
 )

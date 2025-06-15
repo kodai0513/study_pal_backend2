@@ -23,7 +23,7 @@ class UpdateSelectionProblemReq(StudyPalPydanticBaseModel):
 
 
 class SelectionProblemResp(IdResponseSchema, TimeResponseSchema):
-    selection_problem_answers: SelectionProblemAnswerResp
+    selection_problem_answers: list[SelectionProblemAnswerResp]
     statement: str = Field(max_length=255)
     workbook_id: str
     workbook_category_id: str | None

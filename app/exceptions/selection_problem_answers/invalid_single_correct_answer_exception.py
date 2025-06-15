@@ -5,5 +5,5 @@ class InvalidSingleCorrectAnswerException(Exception):
 
     def __init__(self):
         super().__init__(
-            "There must be exactly one correct answer among the choices."
+            "Among multiple answers, only one correct answer is allowed."
         )

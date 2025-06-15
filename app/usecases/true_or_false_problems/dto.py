@@ -1,9 +1,5 @@
-from app.usecases.shared.id_dto import IdDto
-from app.usecases.shared.time_dto import TimeDto
+from app.schemas.true_or_false_problem import TrueOrFalseProblemResp
 
 
-class TrueOrFalseProblemDto(IdDto, TimeDto):
-    is_correct: bool
-    statement: str
-    workbook_id: str
-    workbook_category_id: str | None
+class TrueOrFalseProblemDto(TrueOrFalseProblemResp):
+    pass

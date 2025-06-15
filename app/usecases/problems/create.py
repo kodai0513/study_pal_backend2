@@ -1,20 +1,21 @@
+from typing import cast
+
 from sqlmodel import select
 
 from app.db.session import SessionDep
-from app.domain.services.selection_problem_answer import (
-    SelectionProblemAnswerService,
+from app.domain.services.selection_problem import (
+    SelectionProblem as SelectionProblemProtcol,
+)
+from app.domain.services.selection_problem import (
+    SelectionProblemService,
 )
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.exceptions.resource_ownership_exception import (
     ResourceOwnershipException,
 )
-from app.exceptions.selection_problem_answers.invalid_single_correct_answer_exception import (  # noqa
-    InvalidSingleCorrectAnswerException,
-)
 from app.models.model import (
     DescriptionProblem,
     SelectionProblem,
-    SelectionProblemAnswer,
     TrueOrFalseProblem,
     Workbook,
 )
@@ -42,16 +43,47 @@ class CreateAction:
         if command.user_id != workbook_model.user_id:
             raise ResourceOwnershipException("Problem")
 
+        # 選択問題の回答が2個以上あることを確認
         for v in command.selection_problems:
-            if not SelectionProblemAnswerService.has_only_one_correct_answer(
-                v.selection_problem_answers
-            ):
-                raise InvalidSingleCorrectAnswerException
+            SelectionProblemService.validate_multiple_choices(
+                cast(SelectionProblemProtcol, v)
+            )
 
-        new_article_model = DescriptionProblem.bulk_insert(
-            [v.model_dump() for v in command.description_problems],
+        # 選択問題の答えが一つであることを確認
+        for v in command.selection_problems:
+            SelectionProblemService.validate_single_correct_answer(
+                cast(SelectionProblemProtcol, v)
+            )
+
+        workbook_id_field = {"workbook_id": command.workbook_id}
+        new_description_problem_models = DescriptionProblem.bulk_insert(
+            [
+                v.model_dump() | workbook_id_field
+                for v in command.description_problems
+            ],
             self._session,
         )
+        new_selection_problem_models = SelectionProblem.bulk_insert(
+            [
+                v.model_dump() | workbook_id_field
+                for v in command.selection_problems
+            ],
+            self._session,
+        )
+        new_true_or_false_problem_models = TrueOrFalseProblem.bulk_insert(
+            [
+                v.model_dump() | workbook_id_field
+                for v in command.true_or_false_problems
+            ],
+            self._session,
+        )
+
         self._session.commit()
 
-        return ProblemDto.model_validate(new_article_model)
+        return ProblemDto.model_validate(
+            {
+                "description_problems": new_description_problem_models,
+                "selection_problems": new_selection_problem_models,
+                "true_or_false_problems": new_true_or_false_problem_models,
+            }
+        )

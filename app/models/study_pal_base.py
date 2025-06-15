@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Any, DefaultDict, TypeVar, cast, get_type_hints
 
 import uuid6
-from sqlalchemy import or_
 from sqlmodel import CHAR, Field, SQLModel, select
 from sqlmodel import update as sql_update
 
@@ -102,7 +101,6 @@ class StudyPalBaseModel(SQLModel):
         new_model = cls._nested_value_to_model(cls, insert_values)
         session.add(new_model)
         session.flush()
-        session.refresh(new_model)
         return cast(T, new_model)
 
     @classmethod
@@ -130,15 +128,13 @@ class StudyPalBaseModel(SQLModel):
         for v in bulk_insert_values:
             cls._nested_value_checker(cls, v)
 
-        models = [cls(*v) for v in bulk_insert_values]
+        models = [
+            cls._nested_value_to_model(cls, v) for v in bulk_insert_values
+        ]
         session.add_all(models)
+        session.flush()
 
-        ids = [v.id for v in models]
-        stmt = select(cls).where(
-            or_(*[cls.id == id_ for id_ in ids])  # type: ignore
-        )
-
-        return session.exec(select(cls).where(stmt)).all()  # type: ignore
+        return cast(list[T], models)
 
     @classmethod
     def delete(
