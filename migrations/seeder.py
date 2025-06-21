@@ -1,12 +1,12 @@
 import bcrypt
 from sqlmodel import Session, or_
 
-from app.db.session import engine
+from app.db.session import _engine  # type: ignore
 from app.models.model import Role, User
 
 
 def seed():
-    with Session(engine) as session:
+    with Session(_engine) as session:
         # すでにデータがあるかチェック
         from sqlmodel import select
 

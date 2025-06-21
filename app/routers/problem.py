@@ -14,7 +14,7 @@ router = APIRouter()
     response_model=ProblemResp,
     status_code=status.HTTP_201_CREATED,
 )
-def create_article(
+def create(
     workbook_id: str, req: CreateProblemReq, session: SessionDep, auth: AuthDep
 ) -> ProblemResp:
     try:

@@ -11,11 +11,12 @@ class CreateSelectionProblemAnswerReq(StudyPalPydanticBaseModel):
 
 
 class UpdateSelectionProblemAnswerReq(StudyPalPydanticBaseModel):
+    id: str | None
     is_correct: bool
+    is_delete: bool
     statement: str = Field(max_length=255)
 
 
 class SelectionProblemAnswerResp(IdResponseSchema, TimeResponseSchema):
     is_correct: bool
-    selection_problem_id: str
     statement: str = Field(max_length=255)

@@ -43,15 +43,16 @@ class CreateAction:
         if command.user_id != workbook_model.user_id:
             raise ResourceOwnershipException("Problem")
 
-        # 選択問題の回答が2個以上あることを確認
         for v in command.selection_problems:
             SelectionProblemService.validate_multiple_choices(
                 cast(SelectionProblemProtcol, v)
             )
 
-        # 選択問題の答えが一つであることを確認
-        for v in command.selection_problems:
             SelectionProblemService.validate_single_correct_answer(
+                cast(SelectionProblemProtcol, v)
+            )
+
+            SelectionProblemService.validate_same_statement(
                 cast(SelectionProblemProtcol, v)
             )
 

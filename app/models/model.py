@@ -47,7 +47,9 @@ class Article(StudyPalBaseModel, table=True):
         ),
     )
 
-    article_likes: list["ArticleLike"] = Relationship(back_populates="article")
+    article_likes: list["ArticleLike"] = Relationship(
+        back_populates="article", passive_deletes=True
+    )
     user: "User" = Relationship(back_populates="articles")
 
 
@@ -157,7 +159,7 @@ class SelectionProblem(StudyPalBaseModel, table=True):
     )
 
     selection_problem_answers: list["SelectionProblemAnswer"] = Relationship(
-        back_populates="selection_problem"
+        back_populates="selection_problem", passive_deletes=True
     )
     workbook: "Workbook" = Relationship(back_populates="selection_problems")
     workbook_category: Optional["WorkbookCategory"] = Relationship(
@@ -200,13 +202,15 @@ class User(StudyPalBaseModel, table=True):
     nick_name: Optional[str] = Field(max_length=255, nullable=True)
     password: str
 
-    articles: list["Article"] = Relationship(back_populates="user")
+    articles: list["Article"] = Relationship(
+        back_populates="user", passive_deletes=True
+    )
     article_likes: list["ArticleLike"] = Relationship(back_populates="user")
     workbook_invitation_members: list["WorkbookInvitationMember"] = (
-        Relationship(back_populates="user")
+        Relationship(back_populates="user", passive_deletes=True)
     )
     workbook_members: list["WorkbookMember"] = Relationship(
-        back_populates="user"
+        back_populates="user", passive_deletes=True
     )
     workbooks: list["Workbook"] = Relationship(back_populates="user")
 
@@ -310,6 +314,7 @@ class WorkbookMember(StudyPalBaseModel, table=True):
         sa_column=Column(
             MYSQL_UUID,
             ForeignKey("workbooks.id", ondelete="CASCADE"),
+            nullable=False,
         ),
     )
 
@@ -334,21 +339,21 @@ class Workbook(StudyPalBaseModel, table=True):
     title: str = Field(max_length=255)
 
     workbook_categories: list[WorkbookCategory] = Relationship(
-        back_populates="workbook"
+        back_populates="workbook", passive_deletes=True
     )
     description_problems: list["DescriptionProblem"] = Relationship(
-        back_populates="workbook"
+        back_populates="workbook", passive_deletes=True
     )
     workbook_invitation_members: list["WorkbookInvitationMember"] = (
         Relationship(back_populates="workbook")
     )
     workbook_members: list["WorkbookMember"] = Relationship(
-        back_populates="workbook"
+        back_populates="workbook", passive_deletes=True
     )
     selection_problems: list["SelectionProblem"] = Relationship(
-        back_populates="workbook"
+        back_populates="workbook", passive_deletes=True
     )
     true_or_false_problems: list["TrueOrFalseProblem"] = Relationship(
-        back_populates="workbook"
+        back_populates="workbook", passive_deletes=True
     )
     user: Optional["User"] = Relationship(back_populates="workbooks")

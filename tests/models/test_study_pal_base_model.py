@@ -5,9 +5,10 @@ from typing import Any
 import pytest
 
 from app.models.model import Article, ArticleLike, User
+from app.models.study_pal_base import Operation
 
 
-def test_nested_value_to_model_creates_article_with_nested_relations():
+def test_nested_value_to_model_正常に動作するか():
     user_id = str(uuid.uuid4())
     data: dict[str, Any] = {
         "description": "Test article",
@@ -44,43 +45,74 @@ def test_nested_value_to_model_creates_article_with_nested_relations():
     assert isinstance(article.article_likes[1], ArticleLike)
 
 
-def test_nested_value_checker_with_success():
+def test_nested_value_checker_正常系_INSERT_ネストあり():
     user_id = str(uuid.uuid4())
-
     data: dict[str, Any] = {
         "description": "Test article",
         "user_id": user_id,
-        "created_at": datetime.now(),
-        "updated_at": datetime.now(),
         "article_likes": [
             {
                 "user_id": user_id,
-                "created_at": datetime.now(),
-                "updated_at": datetime.now(),
-            },
-            {
-                "user_id": user_id,
-                "created_at": datetime.now(),
-                "updated_at": datetime.now(),
-            },
+            }
         ],
     }
 
-    Article._nested_value_checker(Article, data)  # type: ignore
+    # INSERT はネストされたリレーションが許容される
+    Article._nested_value_checker(  # type: ignore
+        Article, Operation.INSERT, data
+    )
 
 
-def test_nested_value_checker_with_unknown_field():
+def test_nested_value_checker_UPDATEでネストされたdictを含むとエラー():
     user_id = str(uuid.uuid4())
-
-    values: dict[str, Any] = {
-        "description": "Test article",
+    data: dict[str, Any] = {
+        "description": "Updated article",
         "user_id": user_id,
-        "created_at": datetime.now(),
-        "updated_at": datetime.now(),
-        "unknown_relation": {},  # 存在しないフィールド
+        "user": {
+            "id": user_id,
+        },
     }
 
     with pytest.raises(
-        ValueError, match="unknown_relation is not a valid field of Article"
+        ValueError,
+        match=r"Cannot include nested relation 'user' in update operation",
     ):
-        Article._nested_value_checker(Article, values)  # type: ignore
+        Article._nested_value_checker(  # type: ignore
+            Article, Operation.UPDATE, data
+        )
+
+
+def test_nested_value_checker_UPDATEでネストされたlistを含むとエラー():
+    user_id = str(uuid.uuid4())
+    data: dict[str, Any] = {
+        "description": "Updated article",
+        "user_id": user_id,
+        "article_likes": [{"user_id": user_id}],
+    }
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            r"Cannot include nested relation 'article_likes' in update "
+            r"operation"
+        ),
+    ):
+        Article._nested_value_checker(  # type: ignore
+            Article, Operation.UPDATE, data
+        )
+
+
+def test_nested_value_checker_不明なフィールドを含むとエラー():
+    user_id = str(uuid.uuid4())
+    data: dict[str, Any] = {
+        "description": "Article",
+        "user_id": user_id,
+        "unknown_field": 123,
+    }
+
+    with pytest.raises(
+        ValueError, match=r"unknown_field is not a valid field of Article"
+    ):
+        Article._nested_value_checker(  # type: ignore
+            Article, Operation.INSERT, data
+        )

@@ -11,6 +11,9 @@ from app.domain.services.selection_problem import (
 from app.exceptions.selection_problem_answers.invalid_multiple_choices_exception import (  # noqa
     InvalidMultipleChoicesException,
 )
+from app.exceptions.selection_problem_answers.invalid_same_statement_exception import (  # noqa
+    InvalidSameStatementException,
+)
 from app.exceptions.selection_problem_answers.invalid_single_correct_answer_exception import (  # noqa
     InvalidSingleCorrectAnswerException,
 )
@@ -68,3 +71,33 @@ def test_validate_multiple_choices_選択肢が1つ以下の時検証に失敗�
             SelectionProblemService.validate_multiple_choices(
                 cast(SelectionProblemProtocol, problem)
             )
+
+
+def test_validate_same_statement_全て異なる選択肢の時検証に成功する():
+    problem = cast(
+        SelectionProblemProtocol,
+        SelectionProblem(
+            [
+                Answer(True, "A"),
+                Answer(False, "B"),
+                Answer(False, "C"),
+            ]
+        ),
+    )
+    SelectionProblemService.validate_same_statement(problem)
+
+
+def test_validate_same_statement_同じstatementがあるとき検証に失敗する():
+    problem = cast(
+        SelectionProblemProtocol,
+        SelectionProblem(
+            [
+                Answer(True, "A"),
+                Answer(False, "A"),  # 重複
+                Answer(False, "B"),
+            ]
+        ),
+    )
+
+    with pytest.raises(InvalidSameStatementException):
+        SelectionProblemService.validate_same_statement(problem)

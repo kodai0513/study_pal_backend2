@@ -31,7 +31,7 @@ class UpdateAction:
             exclude_unset=True,
             exclude={"description_problem_id", "workbook_id"},
         )
-        updated_description_problem_model = DescriptionProblem.update(
+        updated_description_problem_model = DescriptionProblem.update_by_id(
             command.description_problem_id, self._session, update_values
         )
         self._session.commit()

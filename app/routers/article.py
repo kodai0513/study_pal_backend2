@@ -18,7 +18,7 @@ router = APIRouter(prefix="/articles")
 @router.post(
     "/", response_model=ArticleResp, status_code=status.HTTP_201_CREATED
 )
-def create_article(
+def create(
     req: CreateArticleReq, session: SessionDep, auth: AuthDep
 ) -> ArticleResp:
     try:
@@ -34,12 +34,12 @@ def create_article(
         raise map_exception_to_http(e)
 
 
-@router.patch(
+@router.put(
     "/{article_id}",
     response_model=ArticleResp,
     status_code=status.HTTP_200_OK,
 )
-def update_article(
+def update(
     article_id: str, req: UpdateArticleReq, session: SessionDep, auth: AuthDep
 ) -> ArticleResp:
     try:
@@ -57,9 +57,7 @@ def update_article(
 
 
 @router.delete("/{article_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_article(
-    article_id: str, session: SessionDep, auth: AuthDep
-) -> None:
+def delete(article_id: str, session: SessionDep, auth: AuthDep) -> None:
     try:
         DeleteAction(session).execute(
             DeleteCommand(article_id=article_id, user_id=auth.user_id)

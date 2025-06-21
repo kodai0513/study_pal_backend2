@@ -17,7 +17,7 @@ class CreateSelectionProblemReq(StudyPalPydanticBaseModel):
 
 
 class UpdateSelectionProblemReq(StudyPalPydanticBaseModel):
-    selection_problem_answers: UpdateSelectionProblemAnswerReq
+    selection_problem_answers: list[UpdateSelectionProblemAnswerReq]
     statement: str = Field(max_length=255)
     workbook_category_id: str | None
 
