@@ -8,8 +8,8 @@ services:
       - 8000:80
     volumes:
       - type: bind
-        source: ./workspace
-        target: /app/workspace
+        source: ./
+        target: /app/
     environment:
       - TZ=Asia/Tokyo
     depends_on:

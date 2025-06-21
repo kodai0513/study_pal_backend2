@@ -1,33 +1,46 @@
 {
-	"name": "backend",
-	"dockerComposeFile": [
-		"../docker-compose.yml"
-	],
-	"settings": {
-		"python.linting.enabled": true,
-		"python.linting.lintOnSave": true,
-		// Pylance
-		"python.languageServer": "Pylance",
-		"python.analysis.completeFunctionParens": true,
-		// Linter(flake8)
-		"python.linting.flake8Path": "/usr/local/bin/flake8",
-		"python.linting.pylintEnabled": false,
-		"python.linting.flake8Enabled": true,
-		// Formatter(black)
-		"python.formatting.blackPath": "/usr/local/bin/black",
-		"python.formatting.provider": "black",
-		"python.formatting.blackArgs": [
-			"--line-length=79"
-		],
-		"[python]": {
-			"editor.formatOnSave": true
-		}
-	},
-	"extensions": [
-		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"njpwerner.autodocstring"
-	],
-	"service": "backend",
-	"workspaceFolder": "/app/workspace"
+  "name": "backend",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "settings": {
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    // Pylance
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": true,
+
+    // Linter (flake8)
+    "python.linting.flake8Path": "/usr/local/bin/flake8",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+
+    // Formatter (black)
+    "python.formatting.blackPath": "/usr/local/bin/black",
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+      "--line-length=79"
+    ],
+
+    // isort support
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "python.sortImports.path": "/usr/local/bin/isort",
+    "python.sortImports.args": [
+      "--profile", "black"
+    ],
+
+    // Format on save
+    "[python]": {
+      "editor.formatOnSave": true
+    }
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "njpwerner.autodocstring"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/app"
 }
