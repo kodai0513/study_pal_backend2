@@ -1,8 +1,8 @@
+from app.schemas.contents.article import ArticleContent
 from app.schemas.shared.page_info import PageInfo
-from app.schemas.views.article import ArticleView
 from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
 
 
-class TimelineResp(StudyPalPydanticBaseModel):
-    data: list[ArticleView]
+class TimelineViewResp(StudyPalPydanticBaseModel):
+    data: list[ArticleContent]
     page_info: PageInfo

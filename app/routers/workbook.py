@@ -8,11 +8,30 @@ from app.schemas.resources.workbook import (
     UpdateWorkbookReq,
     WorkbookResp,
 )
+from app.schemas.views.workbook import WorkbookListsViewResp
+from app.usecases.workbook_search.workbook_search import (
+    WorkbookSearchAction,
+    WorkbookSearchCommand,
+)
 from app.usecases.workbooks.create import CreateAction, CreateCommand
 from app.usecases.workbooks.delete import DeleteAction, DeleteCommand
 from app.usecases.workbooks.update import UpdateAction, UpdateCommand
 
 router = APIRouter(prefix="/workbooks")
+
+
+@router.get(
+    "/", response_model=WorkbookListsViewResp, status_code=status.HTTP_200_OK
+)
+def search(session: SessionDep, keyword: str = "") -> WorkbookListsViewResp:
+    try:
+        return WorkbookListsViewResp.model_validate(
+            WorkbookSearchAction(session).execute(
+                WorkbookSearchCommand(keyword=keyword)
+            )
+        )
+    except Exception as e:
+        raise map_exception_to_http(e)
 
 
 @router.post(

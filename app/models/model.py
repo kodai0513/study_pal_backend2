@@ -334,7 +334,7 @@ class Workbook(StudyPalBaseModel, table=True):
             nullable=True,
         ),
     )
-    description: Optional[str] = Field(max_length=400, nullable=True)
+    description: str = Field(max_length=400, nullable=False)
     is_public: bool = Field(default=False)
     title: str = Field(max_length=255)
 
