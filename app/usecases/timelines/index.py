@@ -5,8 +5,8 @@ from sqlmodel import desc, select
 
 from app.db.session import SessionDep
 from app.models.model import Article
+from app.schemas.contents.article import ArticleContent
 from app.schemas.shared.page_info import PageInfo
-from app.schemas.views.article import ArticleView
 from app.shared.study_pal_pydantic_base_model import StudyPalPydanticBaseModel
 from app.usecases.shared.pagination import pagination
 from app.usecases.timelines.dto import TimelineDto
@@ -46,8 +46,8 @@ class IndexAction:
             base_query, next_query, None, command.page_info
         )
 
-        article_views = [
-            ArticleView(
+        article_contents = [
+            ArticleContent(
                 id=v.id,
                 description=v.description,
                 user_id=v.user.id,
@@ -57,4 +57,4 @@ class IndexAction:
             for v in articles
         ]
 
-        return TimelineDto(data=article_views, page_info=page_info)
+        return TimelineDto(data=article_contents, page_info=page_info)

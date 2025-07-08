@@ -1,5 +1,5 @@
-from app.schemas.pages.timeline import TimelineResp
+from app.schemas.views.timeline import TimelineViewResp
 
 
-class TimelineDto(TimelineResp):
+class TimelineDto(TimelineViewResp):
     pass

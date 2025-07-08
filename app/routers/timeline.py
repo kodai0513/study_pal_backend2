@@ -3,8 +3,8 @@ from fastapi import APIRouter, status
 from app.db.session import SessionDep
 from app.middlewares.auth import AuthDep
 from app.routers.shared.exception_mapper import map_exception_to_http
-from app.schemas.pages.timeline import TimelineResp
 from app.schemas.shared.page_info import PageInfo
+from app.schemas.views.timeline import TimelineViewResp
 from app.usecases.timelines.index import IndexAction, IndexCommand
 
 router = APIRouter()
@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.get(
     "/timelines",
-    response_model=TimelineResp,
+    response_model=TimelineViewResp,
     status_code=status.HTTP_200_OK,
 )
 def index(
@@ -21,9 +21,9 @@ def index(
     next_page_token: str | None = None,
     page_size: int = 20,
     prev_page_token: str | None = None,
-) -> TimelineResp:
+) -> TimelineViewResp:
     try:
-        return TimelineResp.model_validate(
+        return TimelineViewResp.model_validate(
             IndexAction(session).execute(
                 IndexCommand(
                     page_info=PageInfo(
