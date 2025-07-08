@@ -1,12 +1,12 @@
-from app.schemas.description_problem import (
+from app.schemas.resources.description_problem import (
     CreateDescriptionProblemReq,
     DescriptionProblemResp,
 )
-from app.schemas.selection_problem import (
+from app.schemas.resources.selection_problem import (
     CreateSelectionProblemReq,
     SelectionProblemResp,
 )
-from app.schemas.true_or_false_problem import (
+from app.schemas.resources.true_or_false_problem import (
     CreateTrueOrFalseProblemReq,
     TrueOrFalseProblemResp,
 )

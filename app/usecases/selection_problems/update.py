@@ -12,7 +12,7 @@ from app.domain.services.selection_problem import (
 )
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.models.model import SelectionProblem, SelectionProblemAnswer
-from app.schemas.selection_problem import UpdateSelectionProblemReq
+from app.schemas.resources.selection_problem import UpdateSelectionProblemReq
 from app.usecases.selection_problems.dto import SelectionProblemDto
 
 

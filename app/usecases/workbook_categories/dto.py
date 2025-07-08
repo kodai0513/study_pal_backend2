@@ -1,4 +1,4 @@
-from app.schemas.workbook import WorkbookResp
+from app.schemas.resources.workbook import WorkbookResp
 
 
 class WorkbookDto(WorkbookResp):

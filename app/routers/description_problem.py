@@ -3,7 +3,7 @@ from fastapi import APIRouter, status
 from app.db.session import SessionDep
 from app.middlewares.auth import AuthDep
 from app.routers.shared.exception_mapper import map_exception_to_http
-from app.schemas.description_problem import (
+from app.schemas.resources.description_problem import (
     DescriptionProblemResp,
     UpdateDescriptionProblemReq,
 )

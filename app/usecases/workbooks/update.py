@@ -3,7 +3,7 @@ from sqlmodel import select
 from app.db.session import SessionDep
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.models.model import Workbook
-from app.schemas.workbook import UpdateWorkbookReq
+from app.schemas.resources.workbook import UpdateWorkbookReq
 from app.usecases.workbooks.dto import WorkbookDto
 
 

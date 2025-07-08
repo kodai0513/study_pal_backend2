@@ -1,4 +1,4 @@
-from app.schemas.description_problem import DescriptionProblemResp
+from app.schemas.resources.description_problem import DescriptionProblemResp
 
 
 class DescriptionProblemDto(DescriptionProblemResp):

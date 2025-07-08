@@ -6,7 +6,7 @@ from app.exceptions.resource_ownership_exception import (
     ResourceOwnershipException,
 )
 from app.models.model import Article
-from app.schemas.article import UpdateArticleReq
+from app.schemas.resources.article import UpdateArticleReq
 from app.usecases.articles.dto import ArticleDto
 
 

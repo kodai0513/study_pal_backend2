@@ -1,6 +1,6 @@
 from app.db.session import SessionDep
 from app.models.model import Article
-from app.schemas.article import CreateArticleReq
+from app.schemas.resources.article import CreateArticleReq
 from app.usecases.articles.dto import ArticleDto
 
 

@@ -3,7 +3,7 @@ from sqlmodel import select
 from app.db.session import SessionDep
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.models.model import DescriptionProblem
-from app.schemas.description_problem import UpdateDescriptionProblemReq
+from app.schemas.resources.description_problem import UpdateDescriptionProblemReq
 from app.usecases.description_problems.dto import DescriptionProblemDto
 
 

@@ -3,7 +3,7 @@ from sqlmodel import select
 from app.db.session import SessionDep
 from app.exceptions.data_not_found_exception import DataNotFoundException
 from app.models.model import TrueOrFalseProblem
-from app.schemas.true_or_false_problem import UpdateTrueOrFalseProblemReq
+from app.schemas.resources.true_or_false_problem import UpdateTrueOrFalseProblemReq
 from app.usecases.true_or_false_problems.dto import TrueOrFalseProblemDto
 
 

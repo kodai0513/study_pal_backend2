@@ -19,7 +19,7 @@ from app.models.model import (
     TrueOrFalseProblem,
     Workbook,
 )
-from app.schemas.problem import CreateProblemReq
+from app.schemas.resources.problem import CreateProblemReq
 from app.usecases.problems.dto import ProblemDto
 
 

@@ -1,7 +1,7 @@
 from app.constants.role import RoleId
 from app.db.session import SessionDep
 from app.models.model import Workbook, WorkbookMember
-from app.schemas.workbook import CreateWorkbookReq
+from app.schemas.resources.workbook import CreateWorkbookReq
 from app.usecases.workbooks.dto import WorkbookDto
 
 

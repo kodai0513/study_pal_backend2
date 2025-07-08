@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from app.schemas.selection_problem_answer import (
+from app.schemas.resources.selection_problem_answer import (
     CreateSelectionProblemAnswerReq,
     SelectionProblemAnswerResp,
     UpdateSelectionProblemAnswerReq,

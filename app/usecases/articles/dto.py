@@ -1,4 +1,4 @@
-from app.schemas.article import ArticleResp
+from app.schemas.resources.article import ArticleResp
 
 
 class ArticleDto(ArticleResp):
