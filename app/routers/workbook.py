@@ -8,6 +8,7 @@ from app.schemas.resources.workbook import (
     UpdateWorkbookReq,
     WorkbookResp,
 )
+from app.schemas.shared.page_info import PageInfo
 from app.schemas.views.workbook import WorkbookListsViewResp
 from app.usecases.workbook_search.workbook_search import (
     WorkbookSearchAction,
@@ -23,11 +24,24 @@ router = APIRouter(prefix="/workbooks")
 @router.get(
     "/", response_model=WorkbookListsViewResp, status_code=status.HTTP_200_OK
 )
-def search(session: SessionDep, keyword: str = "") -> WorkbookListsViewResp:
+def search(
+    session: SessionDep,
+    keyword: str = "",
+    next_page_token: str | None = None,
+    page_size: int = 20,
+    prev_page_token: str | None = None,
+) -> WorkbookListsViewResp:
     try:
         return WorkbookListsViewResp.model_validate(
             WorkbookSearchAction(session).execute(
-                WorkbookSearchCommand(keyword=keyword)
+                WorkbookSearchCommand(
+                    keyword=keyword,
+                    page_info=PageInfo(
+                        next_page_token=next_page_token,
+                        page_size=page_size,
+                        prev_page_token=prev_page_token,
+                    ),
+                )
             )
         )
     except Exception as e:
