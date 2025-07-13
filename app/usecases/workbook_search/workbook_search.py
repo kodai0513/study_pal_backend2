@@ -39,12 +39,12 @@ class WorkbookSearchAction:
                     Workbook.description.like(keyword_pattern),  # type: ignore
                 )
             )
-            .order_by(desc(Workbook.id))
-            .limit(limit)
         )
 
         def base_query() -> Sequence[Workbook]:
-            return self._session.exec(base_statement).all()
+            return self._session.exec(
+                base_statement.order_by(desc(Workbook.id)).limit(limit)
+            ).all()
 
         def next_query() -> Sequence[Workbook]:
             if command.page_info.next_page_token is None:
@@ -53,21 +53,13 @@ class WorkbookSearchAction:
                 base_statement.where(
                     Workbook.id <= command.page_info.next_page_token
                 )
-            ).all()
-
-        def prev_query() -> Sequence[Workbook]:
-            if command.page_info.prev_page_token is None:
-                raise ValueError("prev_page_token is required but was None.")
-            return self._session.exec(
-                base_statement.where(
-                    Workbook.id >= command.page_info.prev_page_token
-                )
+                .order_by(desc(Workbook.id))
+                .limit(limit)
             ).all()
 
         workbooks, page_info = pagination(
             base_query=base_query,
             next_query=next_query,
-            prev_query=prev_query,
             page=command.page_info,
         )
 

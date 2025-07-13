@@ -20,7 +20,6 @@ def index(
     auth: AuthDep,
     next_page_token: str | None = None,
     page_size: int = 20,
-    prev_page_token: str | None = None,
 ) -> TimelineViewResp:
     try:
         return TimelineViewResp.model_validate(
@@ -29,7 +28,6 @@ def index(
                     page_info=PageInfo(
                         next_page_token=next_page_token,
                         page_size=page_size,
-                        prev_page_token=prev_page_token,
                     )
                 )
             )

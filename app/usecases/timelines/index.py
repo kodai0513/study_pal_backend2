@@ -43,7 +43,7 @@ class IndexAction:
             ).all()
 
         articles, page_info = pagination(
-            base_query, next_query, None, command.page_info
+            base_query, next_query, command.page_info
         )
 
         article_contents = [

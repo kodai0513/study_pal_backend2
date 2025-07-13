@@ -1,5 +1,5 @@
-from app.schemas.views.workbook import WorkbookListsViewResp
+from app.schemas.views.workbook import WorkbookListViewResp
 
 
-class WorkbookSearchDto(WorkbookListsViewResp):
+class WorkbookSearchDto(WorkbookListViewResp):
     pass
