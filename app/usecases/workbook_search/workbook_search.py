@@ -38,7 +38,7 @@ class WorkbookSearchAction:
                     Workbook.title.like(keyword_pattern),  # type: ignore
                     Workbook.description.like(keyword_pattern),  # type: ignore
                 ),
-                Workbook.is_public is True,
+                Workbook.is_public,
             )
         )
 
