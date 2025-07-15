@@ -28,7 +28,7 @@ router = APIRouter(prefix="/workbooks")
 @router.get(
     "/me", response_model=WorkbookListViewResp, status_code=status.HTTP_200_OK
 )
-def me(
+def get_workbooks_for_me(
     session: SessionDep,
     auth: AuthDep,
     next_page_token: str | None = None,
@@ -53,7 +53,7 @@ def me(
 @router.get(
     "/", response_model=WorkbookListViewResp, status_code=status.HTTP_200_OK
 )
-def search(
+def get_workbooks_by_keyword(
     session: SessionDep,
     keyword: str = "",
     next_page_token: str | None = None,
