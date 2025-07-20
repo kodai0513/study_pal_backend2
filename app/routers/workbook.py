@@ -10,6 +10,10 @@ from app.schemas.resources.workbook import (
 )
 from app.schemas.shared.page_info import PageInfo
 from app.schemas.views.workbook import WorkbookListViewResp
+from app.usecases.favorite_workbooks.favorite_workbook import (
+    FavoriteWorkbookAction,
+    FavoriteWorkbookCommand,
+)
 from app.usecases.workbook_me.workbook_me import (
     WorkbookMeAction,
     WorkbookMeCommand,
@@ -38,6 +42,33 @@ def get_workbooks_for_me(
         return WorkbookListViewResp.model_validate(
             WorkbookMeAction(session).execute(
                 WorkbookMeCommand(
+                    authUser=auth,
+                    page_info=PageInfo(
+                        next_page_token=next_page_token,
+                        page_size=page_size,
+                    ),
+                )
+            )
+        )
+    except Exception as e:
+        raise map_exception_to_http(e)
+
+
+@router.get(
+    "/favorites",
+    response_model=WorkbookListViewResp,
+    status_code=status.HTTP_200_OK,
+)
+def get_workbooks_for_favorites(
+    session: SessionDep,
+    auth: AuthDep,
+    next_page_token: str | None = None,
+    page_size: int = 20,
+) -> WorkbookListViewResp:
+    try:
+        return WorkbookListViewResp.model_validate(
+            FavoriteWorkbookAction(session).execute(
+                FavoriteWorkbookCommand(
                     authUser=auth,
                     page_info=PageInfo(
                         next_page_token=next_page_token,
