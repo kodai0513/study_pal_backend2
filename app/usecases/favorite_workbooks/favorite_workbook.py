@@ -44,7 +44,7 @@ class FavoriteWorkbookAction:
                 base_statement.order_by(desc(FavoriteWorkbook.id)).limit(limit)
             ).all()
 
-            return [v.workbook for v in result]
+            return [v.workbook for v in result if v.workbook is not None]
 
         def next_query() -> Sequence[Workbook]:
             if command.page_info.next_page_token is None:
@@ -57,7 +57,7 @@ class FavoriteWorkbookAction:
                 .limit(limit)
             ).all()
 
-            return [v.workbook for v in result]
+            return [v.workbook for v in result if v.workbook is not None]
 
         workbooks, page_info = pagination(
             base_query=base_query,

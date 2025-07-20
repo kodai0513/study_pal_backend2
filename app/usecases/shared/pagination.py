@@ -24,6 +24,7 @@ def pagination(
     # 結果が page_size + 1 件なら次ページあり
     has_extra = len(results) > page.page_size
     if has_extra:
+        pass
         next_page_token = results[-1].id
         results = results[: page.page_size]
 
