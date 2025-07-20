@@ -78,6 +78,26 @@ class DescriptionProblem(StudyPalBaseModel, table=True):
     )
 
 
+class FavoriteWorkbook(StudyPalBaseModel, table=True):
+    __tablename__ = "favorite_workbooks"  # type: ignore
+
+    user_id: str = Field(
+        sa_column=Column(
+            MYSQL_UUID,
+            ForeignKey("users.id", ondelete="CASCADE"),
+        ),
+    )
+    workbook_id: str = Field(
+        sa_column=Column(
+            MYSQL_UUID,
+            ForeignKey("workbooks.id", ondelete="CASCADE"),
+        ),
+    )
+
+    user: "User" = Relationship(back_populates="favorite_workbooks")
+    workbook: "Workbook" = Relationship(back_populates="favorite_workbooks")
+
+
 class PermissionRole(StudyPalBaseModel, table=True):
     __tablename__ = "permission_roles"  # type: ignore
 
@@ -206,6 +226,9 @@ class User(StudyPalBaseModel, table=True):
         back_populates="user", passive_deletes=True
     )
     article_likes: list["ArticleLike"] = Relationship(back_populates="user")
+    favorite_workbooks: list["FavoriteWorkbook"] = Relationship(
+        back_populates="user", passive_deletes=True
+    )
     workbook_invitation_members: list["WorkbookInvitationMember"] = (
         Relationship(back_populates="user", passive_deletes=True)
     )
@@ -343,6 +366,9 @@ class Workbook(StudyPalBaseModel, table=True):
     )
     description_problems: list["DescriptionProblem"] = Relationship(
         back_populates="workbook", passive_deletes=True
+    )
+    favorite_workbooks: list["FavoriteWorkbook"] = Relationship(
+        back_populates="workbook"
     )
     workbook_invitation_members: list["WorkbookInvitationMember"] = (
         Relationship(back_populates="workbook")
