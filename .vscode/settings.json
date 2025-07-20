@@ -1,7 +1,6 @@
 {
   "python.linting.enabled": true,
   "python.linting.lintOnSave": true,
-  "python.languageServer": "Pylance",
   "python.analysis.completeFunctionParens": true,
   "python.linting.flake8Path": "/usr/local/bin/flake8",
   "python.linting.pylintEnabled": false,
